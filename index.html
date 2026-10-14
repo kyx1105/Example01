@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>내 MBTI 포켓몬 찾기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{--red:#e3350d;--ink:#1b2540;--snow:#f6f7fb;--sky:#d6e6ff;--sun:#ffcb05;--line:#c9d3ea;
+--head:"Jua","Apple SD Gothic Neo","Malgun Gothic",sans-serif;--body:"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--body);background:var(--snow);color:var(--ink);line-height:1.6;min-height:100vh}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.wrap{max-width:720px;margin:0 auto;padding:0 20px 56px}
+header.top{background:var(--red);color:#fff;position:relative;overflow:hidden;padding:44px 20px 96px;text-align:center}
+header.top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:56px;background:var(--snow)}
+.ball{position:absolute;left:50%;bottom:-8px;width:104px;height:104px;margin-left:-52px;border-radius:50%;
+background:linear-gradient(#fff 0 0) center/100% 10px no-repeat,#fff;border:10px solid var(--ink);z-index:2;
+background:linear-gradient(var(--ink),var(--ink)) center/100% 10px no-repeat,linear-gradient(var(--red) 50%,#fff 50%)}
+.ball::after{content:"";position:absolute;left:50%;top:50%;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;background:#fff;border:8px solid var(--ink)}
+h1{font-family:var(--head);font-weight:400;font-size:clamp(30px,7vw,46px);margin:0 0 6px;line-height:1.2}
+header p{margin:0;opacity:.92}
+nav.tabs{display:flex;gap:8px;justify-content:center;margin:20px 0 24px;position:relative;z-index:3}
+.tab{border:2px solid var(--ink);background:#fff;border-radius:999px;padding:8px 20px;font-family:var(--head)}
+.tab[aria-selected=true]{background:var(--ink);color:#fff}
+.panel{background:#fff;border:2px solid var(--ink);border-radius:20px;padding:28px 24px;box-shadow:0 6px 0 var(--ink)}
+.panel[hidden]{display:none}
+.intro{text-align:center}
+.intro h2,.q h2{font-family:var(--head);font-weight:400;font-size:24px;margin:0 0 10px}
+.btn{display:inline-block;background:var(--red);color:#fff;border:2px solid var(--ink);border-radius:14px;padding:12px 26px;font-family:var(--head);font-size:18px;box-shadow:0 4px 0 var(--ink)}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.btn.ghost{background:#fff;color:var(--ink)}
+.bar{height:12px;border-radius:99px;background:var(--sky);overflow:hidden;border:2px solid var(--ink);margin-bottom:18px}
+.bar i{display:block;height:100%;background:var(--sun);transition:width .25s}
+.count{font-size:14px;margin:0 0 6px;color:#4a5578}
+.q h2{font-size:22px;margin-bottom:16px}
+.opt{display:block;width:100%;text-align:left;background:var(--snow);border:2px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:10px;transition:border-color .15s,background .15s}
+.opt:hover{border-color:var(--ink);background:var(--sky)}
+.result{text-align:center}
+.result .art{width:min(260px,70%);aspect-ratio:1;margin:0 auto 8px;background:radial-gradient(circle,var(--sky) 0 62%,transparent 63%);display:grid;place-items:center;border-radius:50%}
+.result img{width:86%;height:86%;object-fit:contain}
+.code{display:inline-block;background:var(--ink);color:#fff;border-radius:99px;padding:2px 16px;font-family:var(--head);letter-spacing:.06em}
+.result h2{font-family:var(--head);font-weight:400;font-size:clamp(30px,8vw,42px);margin:8px 0 4px}
+.result .desc{max-width:34em;margin:0 auto 18px}
+.tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
+.tags span{background:var(--sun);border:2px solid var(--ink);border-radius:99px;padding:2px 14px;font-size:14px}
+.pair{display:flex;align-items:center;gap:14px;text-align:left;background:var(--snow);border:2px dashed var(--ink);border-radius:16px;padding:12px 16px;margin:0 auto 22px;max-width:420px}
+.pair img{width:72px;height:72px;object-fit:contain;flex:none}
+.pair b{font-family:var(--head);font-weight:400;font-size:18px}
+.acts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px}
+.card{background:var(--snow);border:2px solid var(--line);border-radius:16px;padding:10px 6px 12px;text-align:center}
+.card:hover{border-color:var(--ink);background:var(--sky)}
+.card img{width:84px;height:84px;object-fit:contain}
+.card b{display:block;font-family:var(--head);font-weight:400;font-size:17px}
+.card small{color:#4a5578}
+.hint{margin:0 0 16px;text-align:center}
+footer{text-align:center;font-size:13px;color:#4a5578;margin-top:24px}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>내 MBTI 포켓몬 찾기</h1>
+  <p>12가지 질문으로 나와 닮은 포켓몬을 만나보세요</p>
+  <div class="ball" aria-hidden="true"></div>
+</header>
+
+<main class="wrap">
+  <nav class="tabs" role="tablist">
+    <button class="tab" role="tab" id="t-test" aria-selected="true" aria-controls="p-test">테스트하기</button>
+    <button class="tab" role="tab" id="t-dex" aria-selected="false" aria-controls="p-dex">16유형 도감</button>
+  </nav>
+
+  <section class="panel" id="p-test" role="tabpanel" aria-labelledby="t-test"></section>
+  <section class="panel" id="p-dex" role="tabpanel" aria-labelledby="t-dex" hidden>
+    <p class="hint">내 MBTI를 이미 안다면 바로 눌러 보세요.</p>
+    <div class="grid" id="grid"></div>
+  </section>
+  <footer>포켓몬 이미지는 PokéAPI에서 불러오며, 결과는 재미로만 봐 주세요.</footer>
+</main>
+
+<script>
+const IMG = id => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+const DEX = {
+  INTJ:["뮤츠",150,"계획은 이미 세 수 앞. 말수는 적지만 판을 읽는 전략가.",["냉철함","독립적","완벽주의"]],
+  INTP:["후딘",65,"머릿속에 도서관이 있는 탐구가. 궁금하면 끝까지 파고들어요.",["호기심","분석적","엉뚱함"]],
+  ENTJ:["리자몽",6,"불꽃 같은 추진력으로 팀을 이끄는 타고난 리더.",["카리스마","목표지향","당당함"]],
+  ENTP:["팬텀",94,"장난기 가득한 토론꾼. 아이디어와 농담이 끊이지 않아요.",["재치","도전적","발상가"]],
+  INFJ:["루카리오",448,"상대의 마음을 파동으로 읽는 조용한 조언자.",["통찰력","신념","배려"]],
+  INFP:["이브이",133,"가능성이 무한한 몽상가. 마음속 이야기가 풍부해요.",["감수성","이상주의","순수함"]],
+  ENFJ:["윈디",59,"의리 넘치는 든든한 보호자. 모두를 챙기며 앞장서요.",["따뜻함","리더십","헌신"]],
+  ENFP:["피카츄",25,"어디서나 분위기를 밝히는 에너자이저.",["열정","친화력","자유로움"]],
+  ISTJ:["거북왕",9,"단단한 등껍질처럼 믿음직한 원칙주의자.",["성실함","책임감","꼼꼼함"]],
+  ISFJ:["해피너스",242,"조용히 모두를 챙기는 다정한 수호자.",["세심함","헌신","포근함"]],
+  ESTJ:["괴력몬",68,"규칙과 실행력으로 일을 끝내는 관리자.",["체계적","추진력","현실적"]],
+  ESFJ:["푸린",39,"분위기 메이커이자 모두의 친구. 노래로 마음을 모아요.",["사교적","다정함","협동"]],
+  ISTP:["마기라스",248,"말보다 행동. 필요할 때만 움직이는 침착한 장인.",["침착함","실용적","적응력"]],
+  ISFP:["이상해꽃",3,"자기만의 속도로 피어나는 따뜻한 예술가.",["온화함","감각적","유연함"]],
+  ESTP:["한카리아스",445,"일단 부딪히고 보는 스피드 승부사.",["대담함","순발력","행동파"]],
+  ESFP:["삐삐",35,"무대 위에서 가장 빛나는 타고난 엔터테이너.",["유쾌함","즉흥적","사교적"]]
+};
+const QS = [
+  ["주말에 에너지를 채우는 방법은?",["E","사람들을 만나 수다를 떤다"],["I","집에서 혼자 조용히 쉰다"]],
+  ["처음 보는 사람들 사이에서 나는?",["E","먼저 말을 걸며 분위기를 푼다"],["I","누군가 말을 걸어 주길 기다린다"]],
+  ["생각을 정리할 때 나는?",["E","말하면서 정리된다"],["I","머릿속에서 충분히 정리한 뒤 말한다"]],
+  ["새로운 게임을 배울 때는?",["S","일단 직접 해 보면서 익힌다"],["N","세계관과 구조부터 이해한다"]],
+  ["대화에서 더 끌리는 주제는?",["S","있었던 일, 구체적인 경험"],["N","만약에, 가능성, 상상"]],
+  ["낯선 곳에서 길을 찾을 때는?",["S","지도를 보고 정확하게 간다"],["N","감을 믿고 가다가 발견한다"]],
+  ["친구가 고민을 털어놓으면?",["T","해결 방법을 같이 찾아 준다"],["F","먼저 마음을 알아 주고 공감한다"]],
+  ["중요한 결정을 내릴 때 기준은?",["T","논리와 효율"],["F","관련된 사람들의 마음"]],
+  ["비판을 들었을 때 먼저 드는 생각은?",["T","맞는 말인지 따져 본다"],["F","말투와 분위기가 마음에 걸린다"]],
+  ["여행을 간다면?",["J","일정표를 짜고 예약해 둔다"],["P","발길 닿는 대로 즉흥으로 다닌다"]],
+  ["과제나 업무가 생기면?",["J","미리 나눠서 차근차근 끝낸다"],["P","마감이 다가오면 몰입해서 해낸다"]],
+  ["내 책상은?",["J","항상 정리되어 있다"],["P","어질러져 있어도 어디에 뭐가 있는지 안다"]]
+];
+const $ = s => document.querySelector(s);
+const flip = c => (c[0]==="E"?"I":"E")+c[1]+(c[2]==="T"?"F":"T")+(c[3]==="J"?"P":"J");
+const img = (id,name) => `<img src="${IMG(id)}" alt="${name}" loading="lazy" onerror="this.style.display='none'">`;
+
+let idx=0, score;
+function start(){ idx=0; score={E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0}; ask(); }
+function intro(){
+  $("#p-test").innerHTML=`<div class="intro"><h2>어떤 포켓몬이 나와 닮았을까?</h2>
+  <p>질문마다 나와 더 가까운 쪽을 골라 주세요.<br>약 2분이 걸려요.</p>
+  <button class="btn" id="go">테스트 시작</button></div>`;
+  $("#go").onclick=start;
+}
+function ask(){
+  const [q,a,b]=QS[idx];
+  $("#p-test").innerHTML=`<div class="q"><p class="count">${idx+1} / ${QS.length}</p>
+  <div class="bar"><i style="width:${idx/QS.length*100}%"></i></div>
+  <h2>${q}</h2>
+  <button class="opt" data-k="${a[0]}">${a[1]}</button>
+  <button class="opt" data-k="${b[0]}">${b[1]}</button></div>`;
+  document.querySelectorAll(".opt").forEach(o=>o.onclick=()=>{
+    score[o.dataset.k]++; idx++;
+    idx<QS.length ? ask() : finish();
+  });
+}
+function finish(){
+  const code=(score.E>score.I?"E":"I")+(score.S>score.N?"S":"N")+(score.T>score.F?"T":"F")+(score.J>score.P?"J":"P");
+  show(code);
+}
+function show(code){
+  const [name,id,desc,tags]=DEX[code], pc=flip(code), [pn,pid]=DEX[pc];
+  $("#p-test").innerHTML=`<div class="result">
+    <div class="art">${img(id,name)}</div>
+    <span class="code">${code}</span>
+    <h2>${name}</h2>
+    <p class="desc">${desc}</p>
+    <div class="tags">${tags.map(t=>`<span>${t}</span>`).join("")}</div>
+    <div class="pair">${img(pid,pn)}<div><small>찰떡 파트너</small><br><b>${pn} (${pc})</b></div></div>
+    <div class="acts"><button class="btn" id="again">다시 테스트하기</button>
+    <button class="btn ghost" id="dexgo">전체 도감 보기</button></div></div>`;
+  $("#again").onclick=()=>{intro();start();};
+  $("#dexgo").onclick=()=>tab("dex");
+  tab("test");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function tab(n){
+  for(const k of ["test","dex"]){
+    $("#t-"+k).setAttribute("aria-selected",k===n);
+    $("#p-"+k).hidden=k!==n;
+  }
+}
+$("#t-test").onclick=()=>tab("test");
+$("#t-dex").onclick=()=>tab("dex");
+$("#grid").innerHTML=Object.entries(DEX).map(([c,[n,id]])=>
+  `<button class="card" data-c="${c}">${img(id,n)}<b>${n}</b><small>${c}</small></button>`).join("");
+document.querySelectorAll(".card").forEach(b=>b.onclick=()=>show(b.dataset.c));
+intro();
+</script>
+</body>
+</html>
